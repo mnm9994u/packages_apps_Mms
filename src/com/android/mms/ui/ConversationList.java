@@ -173,7 +173,6 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
     @Override
     public void onPause() {
         super.onPause();
-        mIsRunning = false;
 
         // Remember where the list is scrolled to so we can restore the scroll position
         // when we come back to this activity and *after* we complete querying for the
@@ -182,6 +181,7 @@ public class ConversationList extends ListActivity implements DraftCache.OnDraft
         mSavedFirstVisiblePosition = listView.getFirstVisiblePosition();
         View firstChild = listView.getChildAt(0);
         mSavedFirstItemOffset = (firstChild == null) ? 0 : firstChild.getTop();
+        mIsRunning = false;
     }
 
     private void setupActionBar() {

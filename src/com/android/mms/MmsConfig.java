@@ -69,7 +69,7 @@ public class MmsConfig {
     // than a single segment (i.e. 140 chars), then the message will turn into and be sent
     // as an mms message. This feature exists for carriers that don't support multi-part sms's.
     private static boolean mEnableMultipartSMS = true;
-
+    
     // By default, the radio splits multipart sms, not the application. If the carrier or radio
     // does not support this, and the recipient gets garbled text, set this to true. If this is
     // true and mEnableMultipartSMS is false, the mSmsToMmsTextThreshold will be observed,
@@ -217,10 +217,6 @@ public class MmsConfig {
         return mEnableSplitSMS;
     }
 
-    public static boolean getSprintVVMEnabled() {
-        return mEnableSprintVVM;
-    }
-
     public static boolean getSlideDurationEnabled() {
         return mEnableSlideDuration;
     }
@@ -267,6 +263,10 @@ public class MmsConfig {
 
     public static boolean getGroupMmsEnabled() {
         return mEnableGroupMms;
+    }
+
+    public static boolean isSuppressedSprintVVM(String address) {
+        return mEnableSprintVVM && address.contentEquals("9016");
     }
 
     public static final void beginDocument(XmlPullParser parser, String firstElementName) throws XmlPullParserException, IOException

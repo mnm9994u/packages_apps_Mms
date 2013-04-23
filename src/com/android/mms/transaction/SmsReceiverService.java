@@ -216,14 +216,9 @@ public class SmsReceiverService extends Service {
                     handleSendInactiveMessage();
                 }
             }
-
-            // Stop service only if there's no outstanding messages being sent, otherwise
-            // mSending state is lost and multiple messages may be dispatched at once.
-            if (!mSending) {
-                // NOTE: We MUST not call stopSelf() directly, since we need to
-                // make sure the wake lock acquired by AlertReceiver is released.
-                SmsReceiver.finishStartingService(SmsReceiverService.this, serviceId);
-            }
+            // NOTE: We MUST not call stopSelf() directly, since we need to
+            // make sure the wake lock acquired by AlertReceiver is released.
+            SmsReceiver.finishStartingService(SmsReceiverService.this, serviceId);
         }
     }
 
@@ -475,8 +470,7 @@ public class SmsReceiverService extends Service {
             return null;
         } else if (sms.isReplace()) {
             return replaceMessage(context, msgs, error);
-        } else if (MmsConfig.getSprintVVMEnabled() &&
-                   sms.getOriginatingAddress().contentEquals("9016")) {
+        } else if (MmsConfig.isSuppressedSprintVVM(sms.getOriginatingAddress())) {
             return null;
         } else {
             return storeMessage(context, msgs, error);
